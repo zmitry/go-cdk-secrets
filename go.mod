@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/jessevdk/go-flags v1.5.0
+	github.com/joho/godotenv v1.3.0
 	github.com/starius/api2 v0.0.0-20220207151416-38e011ef2fc5
 	gocloud.dev v0.25.0
 )

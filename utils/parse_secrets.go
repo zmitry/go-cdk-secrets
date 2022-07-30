@@ -17,7 +17,6 @@ func Parse(config interface{}, baseProjectURL string) error {
 	if err != nil {
 		return err
 	}
-
 	ctx := context.Background()
 
 	// Now process "parse_to" fields.
@@ -26,6 +25,10 @@ func Parse(config interface{}, baseProjectURL string) error {
 	for i := 0; i < configType.NumField(); i++ {
 
 		fieldValue := configValue.Field(i)
+		if fieldValue.Interface().(string) != "" {
+			log.Printf("%s is not empty, skipping", configType.Field(i).Name)
+			continue
+		}
 		sourceField := configType.Field(i).Tag.Get("secret-key")
 		if sourceField == "" {
 			continue
