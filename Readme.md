@@ -1,6 +1,23 @@
 ## how to start
 go run .
 
+### purpose of this repo
+Show to to use secret manager to pass credentials to application using https://gocloud.dev this provides better security and simplifies deployment of an app. 
+Secrets are defined as string keys in arguments and specify path how to access secret data in google secret manager or aws secret manager. 
+we use key param `secret-key` which specify what should we as location for secret.
+PostgresURLKey holds secret key like gcp.io/secret-manager/project/secret/version
+PostgresURL - holds actual value which can be populated from different sources like env or from secret-key.
+type Args struct {
+	// key where secret is stored
+	PostgresURLKey string `env:"POSTGRES_URL_KEY" long:"postgres-url-key" default:"postgres-url"`
+	// actual url for current service
+    // we can keep it empty and it will be inferred from 
+    // postgres-url secret manager
+    // or you can provide it from env or arguments and pass secret value directly.
+	PostgresURL string `env:"POSTGRES_URL" long:"postgres-url" secret-key:"PostgresURLKey" optional:"true"`
+}
+
+
 ### golang cdk example with google secret manager
 
 According to clean architecture you might have several layers of your app , We consider secrets and configuration to be the outer layer of your app (framework and devices)
